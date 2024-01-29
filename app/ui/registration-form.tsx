@@ -14,7 +14,8 @@ import { register } from '@/app/lib/actions';
 import Link from 'next/link';
 
 export default function RegistrationForm() {
-  const [errorMessage, dispatch] = useFormState(register, undefined);
+  const initialState = { message: null, errors: {} };
+  const [state, dispatch] = useFormState(register, initialState);
   return (
     <form action={dispatch} className="space-y-3">
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
@@ -81,19 +82,7 @@ export default function RegistrationForm() {
             </div>
           </div>
         </div>
-        <div
-          className="flex h-8 items-end space-x-1"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          {errorMessage && (
-            <>
-              <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-              <p className="text-sm text-red-500">{errorMessage}</p>
-            </>
-          )}
-        </div>
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-2 mt-4">
           <ReturnButton />
           <RegisterButton />
         </div>
@@ -104,7 +93,7 @@ export default function RegistrationForm() {
 
 function ReturnButton() {
   const { pending } = useFormStatus();
- 
+
   return (
     <Link href="/login">
         <Button aria-disabled={pending}>
@@ -117,7 +106,7 @@ function ReturnButton() {
 
 function RegisterButton() {
     const { pending } = useFormStatus();
-   
+
     return (
       <div className="w-{110} ml-auto">
         <Button type="submit" aria-disabled={pending}>

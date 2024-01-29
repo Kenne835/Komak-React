@@ -2,9 +2,19 @@
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { signIn } from '@/auth';
+import { signIn, getUser } from '@/auth';
 import { AuthError } from 'next-auth';
+import { z } from 'zod';
 const bcrypt = require('bcrypt');
+
+const FormSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string(),
+  password: z.string()
+});
+
+const RegisterUser = FormSchema.omit({ id: true });
 
 export async function authenticate(
     prevState: string | undefined,
@@ -25,21 +35,44 @@ export async function authenticate(
     }
   }
 
-  export async function register(prevState: string | undefined, formData: FormData) {
+  export type State = {
+    errors?: {
+      name?: string[];
+      email?: string[];
+      password?: string[];
+    };
+    message?: string | null;
+  };
+
+  export async function register(prevState: State, formData: FormData) {
         // Prepare data for insertion into the database
-        const user = {
-          name: formData.get('name')?.toString(),
-          email: formData.get('email')?.toString(),
+        const validatedFields = RegisterUser.safeParse({
+          name: formData.get('name'),
+          email: formData.get('email'),
           password: await bcrypt.hash(formData.get('password'), 10),
+        });
+
+        if (!validatedFields.success) {
+          return {
+          errors: validatedFields.error.flatten().fieldErrors,
+          message: 'Missing Fields. Failed to Create User.',
+          };
+        }
+
+        const { name, email, password } = validatedFields.data;
+
+        const existingUser = await getUser(email);
+
+        if (existingUser) return {
+          message: 'Error: This email is already associated with a user.',
         };
 
         // Insert data into the database
         try {
             await sql`
             INSERT INTO users (name, email, password)
-            VALUES (${user.name}, ${user.email}, ${user.password})
+            VALUES (${name}, ${email}, ${password})
             `;
-            return { message: 'Successfully Registered.' };
             redirect('/login');
         } catch (error) {
             // If a database error occurs, return a more specific error.
