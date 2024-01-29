@@ -1,6 +1,6 @@
 'use client';
 
-import { lusitana } from '@/app/ui/fonts';
+import { notoKufi } from '@/app/ui/fonts';
 import {
   AtSymbolIcon,
   KeyIcon,
@@ -17,7 +17,7 @@ export default function LoginForm() {
   return (
     <form action={dispatch} className="space-y-3">
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-        <h1 className={`${lusitana.className} mb-3 text-2xl`}>
+        <h1 className={`${notoKufi.className} mb-3 text-2xl`}>
           Please log in to continue.
         </h1>
         <div className="w-full">
@@ -63,9 +63,9 @@ export default function LoginForm() {
         </div>
         <div className="space-y-2">
           <LoginButton />
-          <div className={`${lusitana.className} flex flex-row items-center leading-none text-[16px]`}>
+          <div className={`${notoKufi.className} flex flex-row items-center leading-none text-[16px]`}>
             <p>Don't have an account?</p><Link href="/register" className="cursor-pointer ml-2 font-semibold underline"> Sign Up</Link>
-            
+
           </div>
         </div>
         <div
@@ -87,7 +87,7 @@ export default function LoginForm() {
 
 function LoginButton() {
   const { pending } = useFormStatus();
- 
+
   return (
     <Button className="mt-4 w-full" aria-disabled={pending}>
       Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
