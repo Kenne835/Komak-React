@@ -23,7 +23,7 @@ async function seedUsers(client) {
         const hashedPassword = await bcrypt.hash(user.password, 10);
         return client.sql`
         INSERT INTO users (name, email, password)
-        VALUES (${user.name}, ${user.username}, ${user.email}, ${hashedPassword})
+        VALUES (${user.name}, ${user.email}, ${hashedPassword})
         ON CONFLICT (email) DO NOTHING;
       `;
       }),
