@@ -2,7 +2,8 @@
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { signIn, getUser } from '@/auth';
+import { signIn } from '@/auth';
+import { getUser } from '@/app/lib/data'
 import { AuthError } from 'next-auth';
 import { z } from 'zod';
 const bcrypt = require('bcrypt');
