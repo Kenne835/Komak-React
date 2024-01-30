@@ -5,3 +5,13 @@ Komak is a medical application designed for the Pashtun people, as resources for
 ## Built With
 
 React.js, Next.js, PostgreSQL. 
+
+## How to run locally
+
+After cloning the project, run "npm i" to download packages and "npm run dev" to start on port 3000. 
+
+To set up DB, navigate to https://vercel.com/ and deploy project, then select the "storage" tab and select create a Postgres DB, titled "komak-db", region set to default at Washington D.C., USA - (iad1). 
+
+Add .env file to project base, and select "show secret" and "copy snippet" on vercel storage page to copy db secret. Paste in .env file. 
+
+Run "npm i @vercel/postgres" in terminal, and finally "npm run seed" to run seed script and populate db.
