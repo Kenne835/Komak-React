@@ -21,14 +21,21 @@ Run "npm i @vercel/postgres" in terminal, and finally "npm run seed" to run seed
 
 Done:
 Project Layout
+
 Side Nav and links
+
 Log in with Authentication
+
 Basic user registration
+
 Diagnostics Overview Page (UI only) 
 
 To Do:
 More comprehensive validation for user registration.
+
 User Profile (view/edit user information, view/delete saved reports).
+
 Diagnostics (overview logic, other page inputs/validation, post and get calls).
+
 More detailed error handling, add alerts. 
 
